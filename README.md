@@ -1,4 +1,4 @@
-# **Scraping
+# Scraping
 Made using python3
 
 There are 2 files here to use, webPage.py and visibleWebText.py
