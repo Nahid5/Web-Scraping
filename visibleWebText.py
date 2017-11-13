@@ -7,7 +7,6 @@ import requests
 import random
 import sys
 import html2text
-from termcolor import colored, cprint
 #need to install requests, html2text, and termcolor
 
 title = """/
@@ -23,16 +22,16 @@ title = """/
 if (len(sys.argv) != 2):
 	print (title)
 	
-	cprint ("NAME", attrs=['bold'])
+	print ("NAME")
 	print ("\tvisibleWebText.py - displays the visible portion of a webpage (no code)\n")
 
-	cprint ("SONOPSIS", attrs=['bold'])
+	print ("SONOPSIS")
 	print ("\tpython3 visibleWebText.py [address]\n")
 	
-	cprint ("DESCRIPTION", attrs=['bold'])
+	print ("DESCRIPTION")
 	print ("\tvisibleWebText.py - displays the visible portion of a webpage and even keeps the structuring of where or how the text was. (Note: This is known to take in links attached to images or somethings like that)\n")
 	
-	cprint ("USEAGE:", attrs=['bold'])
+	print ("USEAGE:")
 	print ("\tvisibleWebTest.py http(s)://<address>\n")	
 		
 	sys.exit()
@@ -51,20 +50,21 @@ def LoadUserAgents(uafile="user_agents.txt"):
     random.shuffle(uas)
     return uas
 
-# load user agents and set headers
-uas = LoadUserAgents()
-ua = random.choice(uas)  # select a random user agent
-headers = {
-    "Connection" : "close",  # another way to cover tracks
-    "User-Agent" : ua}
+if(__name__ == "__main__"):
+    # load user agents and set headers
+    uas = LoadUserAgents()
+    ua = random.choice(uas)  # select a random user agent
+    headers = {
+        "Connection" : "close",  # another way to cover tracks
+        "User-Agent" : ua}
 
-#webpage in the format of http(s)://<address>
-url = sys.argv[1] 
-#returns the page and randomizes the request
-r = requests.get(url, headers=headers)
-html = r.text
+    #webpage in the format of http(s)://<address>
+    url = sys.argv[1] 
+    #returns the page and randomizes the request
+    r = requests.get(url, headers=headers)
+    html = r.text
 
-page = html2text.html2text(html)
-output = open ("visibleHTML.txt", "w+")
-output.write(page)
-output.close()
+    page = html2text.html2text(html)
+    output = open ("visibleHTML.txt", "w+")
+    output.write(page)
+    output.close()

@@ -1,14 +1,15 @@
 #!/usr/bin/python3
 #Author: Nahid Sarker
-#Date modified:4/18/2017
+#Date modified:11/13/2017
 #Purpose: Get html page in a pretty fond (html that has been minified, or not that legiable for humans)
-#Created with python 3.6, tested on Ubuntu 16.04
+#Created with python 3.6
+#Tested on Ubuntu 16.04.3 LTS, Lubuntu 16.04.3 LTS, Windows 10
 
 #Needed libraries to download:request, html5print, termcolor 
 #You also NEED ******user_agents.txt******** file to get all the random agents
 
 #How to use:
-#python3 getPrettyWebpage.py <link>
+#python3 webPage.py <link>
 #
 #you should use > to output the output into a txt or whatever kind of file you want. Usien a builtin function to make the file did not work for me, but feel free to try.
 
@@ -16,7 +17,7 @@ import requests
 import random
 import sys
 from  html5print import CSSBeautifier, JSBeautifier, HTMLBeautifier
-from termcolor import colored, cprint
+#from termcolor import colored, cprint
 
 
 title = """\
@@ -31,16 +32,16 @@ title = """\
 if (len(sys.argv) != 2):
 	print (title)
 	
-	cprint ("NAME", attrs=['bold'])
+	print ("NAME")
 	print ("\twebpage.py - displays html source in a neat format\n")
 	
-	cprint ("SONOPSIS", attrs=['bold'])
+	print ("SONOPSIS")
 	print ("\tpython3 webPage.py [address]\n")
 	
-	cprint ("DESCRIPTION", attrs=['bold'])
+	print ("DESCRIPTION")
 	print ("\twebpage.py - displays html, css, and javascript in a neat format.  It fixes the source of the html page if it's one single line or just packed into lines without tabbing or anything.  The output is placed in a file called sourceHTML.txt\n")
 
-	cprint ("USEAGE:", attrs=['bold'])
+	print ("USEAGE:")
 	print ("\twebPage.py http(s)://<address>\n")
 
 	sys.exit()
@@ -59,20 +60,21 @@ def LoadUserAgents(uafile="user_agents.txt"):
     random.shuffle(uas)
     return uas
 
-# load user agents and set headers
-uas = LoadUserAgents()
-ua = random.choice(uas)  # select a random user agent
-headers = {
-    "Connection" : "close",  # another way to cover tracks
-    "User-Agent" : ua}
+if(__name__ == "__main__"):
+    # load user agents and set headers
+    uas = LoadUserAgents()
+    ua = random.choice(uas)  # select a random user agent
+    headers = {
+        "Connection" : "close",  # another way to cover tracks
+        "User-Agent" : ua}
 
-#webpage in the format of http(s)://<address>
-url = str(sys.argv[1])
-#returns the page and randomizes the request
-r = requests.get(url, headers=headers)
+    #webpage in the format of http(s)://<address>
+    url = str(sys.argv[1])
+    #returns the page and randomizes the request
+    r = requests.get(url, headers=headers)
 
-data = r.text
-page = HTMLBeautifier.beautify (data)
-html = open("sourceHTML.txt", "w+")
-html.write(page)
-html.close()
+    data = r.text
+    page = HTMLBeautifier.beautify (data)
+    html = open("sourceHTML.txt", "w+")
+    html.write(page)
+    html.close()
